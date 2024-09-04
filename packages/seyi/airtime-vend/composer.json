@@ -1,0 +1,24 @@
+{
+    "name": "seyi/airtime-vend",
+    "description": "An Airtime Vending Solution",
+    "license": "SELF",
+    "authors": [
+        {
+            "name": "Seyikin27"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Seyi\\AirtimeVend\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Seyi\\AirtimeVend\\Providers\\AirtimeVendServiceProvider"
+            ]
+        }
+    }
+}
