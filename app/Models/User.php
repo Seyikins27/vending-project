@@ -20,6 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'balance',
+        'phone',
         'password',
     ];
 
@@ -43,11 +45,20 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $appends=['balance'];
 
-    public static function create($data)
+    public function initial_deposit()
     {
-        return collect($data);
+        $wallet_id="ACCT-".$this->id;
+        UserWallet::create([
+            'wallet_id'=>$wallet_id,
+            'user_id'=>$this->id,
+            'balance'=>1000
+        ]);
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(UserWallet::class);
     }
     
 }
