@@ -2,9 +2,10 @@
 
 namespace Seyi\AirtimeVend\Services;
 
-use App\Models\Transaction as ModelsTransaction;
+use App\Models\Transaction as TransactionModel;
 use App\Models\UserWallet;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 interface Transaction
 {
@@ -54,6 +55,7 @@ class TransactionService implements Transaction
    private function record_transaction($type, $amount)
    {
       try{
+        DB::beginTransaction();
          $transaction_data=[
             'user_wallet_id'=>$this->user_wallet->id,
             'reference_number'=>$this->user_wallet->user_id.date('ymdhis').\uniqid(),
@@ -63,11 +65,13 @@ class TransactionService implements Transaction
             'amount'=>$amount,
             'other_info'=>$this->other_info??null
         ];
-        ModelsTransaction::create($transaction_data);
+        TransactionModel::create($transaction_data);
+        DB::commit();
       }
     catch(\Exception $e)
     {
-        return $this->log_error("Transaction Error: ".$e->getMessage());
+      DB::rollBack();
+      return $this->log_error("Transaction Error: ".$e->getMessage());
     }
         
    }

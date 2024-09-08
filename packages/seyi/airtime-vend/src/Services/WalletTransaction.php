@@ -3,6 +3,7 @@
 namespace Seyi\AirtimeVend\Services;
 
 use App\Models\UserWallet;
+use Illuminate\Support\Facades\DB;
 
 class WalletTransaction extends TransactionService
 {
@@ -15,7 +16,9 @@ class WalletTransaction extends TransactionService
    
    public function update()
    {
-      $this->user_wallet->update(['balance'=>$this->new_balance]);
+     DB::transaction(function() {
+        $this->user_wallet->update(['balance'=>$this->new_balance]);
+      });
    }
 
    public function wallet_credit($amount)
