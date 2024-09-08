@@ -34,7 +34,7 @@ class VendingPartnerSeeder extends Seeder
 
             VendingPartner::create([
                 'name'=>'BAP',
-                'endpoint'=>'http://test.shagopayments.com/public/api/test/b2b',
+                'endpoint'=>'https://api.staging.baxibap.com/services/airtime/request',
                 'header_information'=>[
                     'Content-Type',
                     'Accept',
