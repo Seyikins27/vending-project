@@ -31,7 +31,9 @@ Run the following command to setup the database and also to seed the sample data
 <code><pre><tab><tab>php artisan migrate --seed </pre></code>
 
 ## Startup the server by running 
-<code><pre><tab><tab>php artisan serve  </pre></code> //this serves by default on port 8000  
+<code><pre><tab><tab>php artisan serve  </pre></code> 
+
+This will be served by default on port 8000  
 
 However if you wish to specify a port you can add the "--port={desired port number}" to serve the project on a specified port
 
