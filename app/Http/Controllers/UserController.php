@@ -71,14 +71,26 @@ class UserController extends Controller
             $request_parameters[$request_parameter]=isset($request->data[$request_parameter])?$request->data[$request_parameter]:null;
          }
 
-         //dd($network_attribute);
          $data=[
             'request_params'=>array_merge($request_parameters, $network_attribute),
             'header_params'=>$header_parameters
          ];
 
          $vend=Airtime::vend($network_provider, $vending_partner, $data);
-         dd($vend);
+         
+         if($vend['status']==true)
+         {
+            return response()->json([
+                'status'=>true,
+                'message'=>'Airtime purchased successfully',
+                'data'=>$vend['data']['data']
+            ]);
+         }
+         else
+         {
+            //i am intentionally displaying the exception errors the exception errors ideally will be logged
+            throw new Exception($vend['message']." : ".$vend['error']);
+         }
        }
        catch(Exception $e)
        {

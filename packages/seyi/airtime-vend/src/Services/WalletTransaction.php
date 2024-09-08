@@ -31,4 +31,13 @@ class WalletTransaction extends TransactionService
       $this->update();
       return $this;
    }
+
+   public function commission($commission, $amount)
+   {
+     $commission_amount=($commission/$amount)*100;
+     $this->credit($commission_amount);
+     $this->update();
+     return $this;
+   }
+
 }

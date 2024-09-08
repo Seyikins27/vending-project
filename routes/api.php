@@ -22,16 +22,9 @@ Route::post('user/register',[UserController::class,'register']);
 
 Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::get('user/wallet/balance',[UserWalletController::class,'balance']);
+    Route::get('user/wallet/transactions',[UserWalletController::class,'transactions']);
     Route::post('user/wallet/topup',[UserWalletController::class,'topup']);
     Route::post('user/airtime/topup',[UserController::class,'purchase_airtime']);
 
 });
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
-// Route::get('vend',function(\Seyi\AirtimeVend\Airtime $airtime){
-//     //return $airtime->vend();
-// });

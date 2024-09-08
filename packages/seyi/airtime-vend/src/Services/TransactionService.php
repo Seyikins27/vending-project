@@ -4,6 +4,7 @@ namespace Seyi\AirtimeVend\Services;
 
 use App\Models\Transaction as ModelsTransaction;
 use App\Models\UserWallet;
+use Exception;
 
 interface Transaction
 {
@@ -40,7 +41,12 @@ class TransactionService implements Transaction
         $source=$this->source_details;
         $type="Db";
         $this->description='Account Debited with '.$amount;
-        $this->new_balance=$this->user_wallet->balance-$amount;
+        $wallet_balance=$this->user_wallet->balance;
+        if($wallet_balance<$amount)
+        {
+         throw new Exception("Your Wallet balance is insufficient");
+        }
+        $this->new_balance=$wallet_balance-$amount;
         $this->record_transaction($type, $amount);
         return $this;
    }
@@ -48,15 +54,14 @@ class TransactionService implements Transaction
    private function record_transaction($type, $amount)
    {
       try{
-         
          $transaction_data=[
             'user_wallet_id'=>$this->user_wallet->id,
-            'reference_number'=>$this->user_wallet->user_id.date('ymdhis'),
+            'reference_number'=>$this->user_wallet->user_id.date('ymdhis').\uniqid(),
             'transaction_type'=>$type,
             'transaction_source'=>$this->source_details??"ACCT-NA",
             'description'=>$this->description,
             'amount'=>$amount,
-            'other_info'=>self::$other_info??null
+            'other_info'=>$this->other_info??null
         ];
         ModelsTransaction::create($transaction_data);
       }

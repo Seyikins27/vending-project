@@ -43,6 +43,38 @@ class UserWalletController extends Controller
         }
     }
 
+    public function transactions()
+    {
+        try{
+            $user=auth()->user()->id;
+            $wallet=UserWallet::where('user_id',$user)->with('transactions')->firstOrFail();
+            return response()->json([
+                'status' => true,
+                'message' => 'Balance Fetched',
+                'data' => [
+                    'balance'=>$wallet->balance,
+                    'transactions'=>$wallet->transactions
+                ],
+            ]);
+        }
+        catch(ModelNotFoundException $e)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid Wallet ',
+                'error' => $e->getMessage(),
+            ]);
+        }
+        catch(Exception $e)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Error Fetching Wallet transactions',
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function topup(Request $request)
     {
         try{
@@ -53,10 +85,17 @@ class UserWalletController extends Controller
             $wallet=UserWallet::where('user_id',$user)->firstOrFail(); 
             $topup_request=new WalletTransaction($wallet);
             $topup_request->set_source('ACCT-CREDITED')->wallet_credit($request->amount);
-            //dd($topup_request);
             return response()->json([
                 'status' => true,
                 'message' => 'Account credited successfully',
+            ]);
+        }
+        catch(ModelNotFoundException $e)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid Wallet',
+                'error'=>$e->getMessage()
             ]);
         }
         catch(Exception $e)

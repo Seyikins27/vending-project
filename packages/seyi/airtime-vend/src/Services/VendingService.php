@@ -32,18 +32,26 @@ class VendingService
     {
         try{
             $request=Http::acceptJson()->withHeaders($this->header_information)->post($this->endpoint, $this->parameters);
-
-            return [
-                'status'=>true,
-                'message'=>'Vending Successful',
-                'data'=>$request
-            ];
+            $request_body=json_decode($request->getBody()->getContents());
+            if(in_array($request_body->status,['success',200])===true)
+            {
+                return [
+                    'status'=>true,
+                    'message'=>'Vending Successful',
+                    'data'=>$request_body
+                ];
+            }
+            else{
+                throw new Exception('Vending Error : '.$request_body->message);
+            }
+           
         }
         catch(Exception $e)
         {
            return [
             'status'=>false,
-            'message'=>'Error mkaing request to vending service '.$e->getMessage()
+            'message'=>'Error making request to vending service ',
+            'error'=>$e->getMessage()
            ];
         }
        
