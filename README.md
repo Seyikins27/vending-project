@@ -13,11 +13,12 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 ## Setting up and installation
 
 clone this project by running 
-##
-<tab><tab>git clone https://github.com/Seyikins27/vending-project
+
+<code><pre><tab><tab>git clone https://github.com/Seyikins27/vending-project </pre></code>
+
 After Cloning this project, navigate to the directory of this project and run the following command on the terminal
-##
-<tab><tab>composer install
+
+<code><pre><tab><tab>composer install </pre></code>
 
 This install all the vendor packages associated with this project.
 
@@ -26,11 +27,12 @@ Connfigure your environment file (.env) file with the appropriate parameters.
 ## Migrations and Data Seeding
 This project comes with already seeded data to enable you quickly simulate and test the functions.
 
-## Run the following command to setup the database and also to seed the sample data
-<tab><tab>php artisan migrate --seed
+Run the following command to setup the database and also to seed the sample data
+<code><pre><tab><tab>php artisan migrate --seed </pre></code>
 
 ## Startup the server by running 
-<tab><tab>php artisan serve  //this serves by default on port 8000
+<code><pre><tab><tab>php artisan serve  </pre></code> //this serves by default on port 8000  
+
 However if you wish to specify a port you can add the "--port={desired port number}" to serve the project on a specified port
 
 ### Accessing the features
@@ -39,7 +41,7 @@ However if you wish to specify a port you can add the "--port={desired port numb
 
 To Register a user 
 
-{base_url}/api/user/register using the POST method using the following fields
+<pre>POST: {base_url}/api/user/register </pre>using the POST method using the following fields
 
 -name 
 -email
@@ -47,7 +49,7 @@ To Register a user
 -password_confirmation
 
 ## login with the created user or one of the seeded user
-POST: {base_url}/api/login 
+<pre>POST: {base_url}/api/login </pre>
 
 A token is then gotten from the request body which will then be used for subsequent requests
 
@@ -57,20 +59,20 @@ Authorization: Bearer {token}
 
 ### Endpoints
 - Check wallet balance
-    - GET: {base_url}/api/user/wallet/balance
+   <pre> - GET: {base_url}/api/user/wallet/balance </pre>
 
 - Topup wallet
-    - POST: {base_url}/api/user/wallet/topup
+    <pre>- POST: {base_url}/api/user/wallet/topup </pre>
     - fields
         - amount : has to be a number
 
 - Check wallet transactions
-    - GET: {base_url}/api/user/wallet/transactions
+    <pre>- GET: {base_url}/api/user/wallet/transactions </pre>
  
 - Purchase Airtime
 ** This invloves matching a network provider e.g "MTN" to an airtime vending service like e.g. "Shaggo"
 
-    - POST: {base_url}/api/user/airtime/vend
+    <pre>- POST: {base_url}/api/user/airtime/vend </pre>
     - fields
         - network_provider : requires the id of any of the network providers that exists in the database,
         - vending_partner : requires the id of any of the network providers that exists in the database,
@@ -80,21 +82,21 @@ Authorization: Bearer {token}
           - .. all other fields as specified in the documentation of the vending service provider
 
     ## sample request to vend airtime
-    {
-      "network_provider":1,
-      "vending_partner":1,
-      "data":{
-         "amount":200,
-         "phone":"08065324736",
-         "Accept":"application/json",
-         "email":"test@shagopayments.com",
-         "password":"test123",
-         "Content-Type":"application/json",
-         "vend_type":"VTU",
-         "serviceCode":"QAB",
-         "request_id":"647929258018"
-      }
-    }
+    <code><pre>{
+          "network_provider":1,
+          "vending_partner":1,
+          "data":{
+             "amount":200,
+             "phone":"08065324736",
+             "Accept":"application/json",
+             "email":"test@shagopayments.com",
+             "password":"test123",
+             "Content-Type":"application/json",
+             "vend_type":"VTU",
+             "serviceCode":"QAB",
+             "request_id":"647929258018"
+          }
+    }</pre></code>
 
 ** note: The parameters within the "data" array are subject to the specific vending service, 
 
