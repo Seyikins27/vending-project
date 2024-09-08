@@ -12,4 +12,5 @@ class NetworkProvider extends Model
     protected $fillable=[
         'name','code_name','commission'
     ];
+
 }

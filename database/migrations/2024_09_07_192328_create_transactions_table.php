@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(UserWallet::class);
+            $table->foreignUuid('user_wallet_id')->constrained('user_wallets')->cascadeOnDelete()->cascadeOnUpdate();;
             $table->string('reference_number')->unique();
             $table->enum('transaction_type',['Cr','Db']);
             $table->string('transaction_source');

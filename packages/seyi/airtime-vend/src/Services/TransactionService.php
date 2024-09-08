@@ -2,13 +2,13 @@
 
 namespace Seyi\AirtimeVend\Services;
 
+use App\Models\Transaction as ModelsTransaction;
 use App\Models\UserWallet;
 
 interface Transaction
 {
-   static function credit($amount);
-   static function debit($amount);
-   static function set_source($details);
+   function credit($amount);
+   function debit($amount);
 }
 
 trait Error
@@ -26,52 +26,86 @@ abstract class TransactionService implements Transaction
    public $source_details;
    public $description, $new_balance, $other_info;
 
-   public static function credit($amount)
+   public function credit($amount)
    {
-      $source=self::$source_details;
+      $source=$this->source_details;
       $type="Cr";
-      self::$description='Account Credited with '.$amount;
-      self::$new_balance=self::$user_wallet->balance+$amount;
-      return self::record_transaction($type, $amount);
+      $this->description='Account Credited with '.$amount;
+      $this->new_balance=$this->user_wallet->balance+$amount;
+      $this->record_transaction($type, $amount);
+      return $this;
    }
 
-   public static function debit($amount)
+   public function debit($amount)
    {
-        $source=self::$source_details;
+        $source=$this->source_details;
         $type="Db";
-        self::$description='Account Debited with '.$amount;
-        self::$new_balance=self::$user_wallet->balance-$amount;
-        return self::record_transaction($type, $amount);
+        $this->description='Account Debited with '.$amount;
+        $this->new_balance=$this->user_wallet->balance-$amount;
+        $this->record_transaction($type, $amount);
+        return $this;
    }
 
-   private static function record_transaction($type, $amount)
+   private function record_transaction($type, $amount)
    {
       try{
-        return $transaction_data=[
-            'user_wallet_id'=>self::$user_wallet->id,
-            'reference_number'=>self::$user_wallet->user_id.date('ymdhis'),
+         $transaction_data=[
+            'user_wallet_id'=>$this->user_wallet->id,
+            'reference_number'=>$this->user_wallet->user_id.date('ymdhis'),
             'transaction_type'=>$type,
-            'transaction_source'=>self::$source_details??null,
-            'description'=>self::$description,
+            'transaction_source'=>$this->source_details??null,
+            'description'=>$this->description,
             'amount'=>$amount,
             'other_info'=>self::$other_info??null
         ];
+        ModelsTransaction::create($transaction_data);
       }
     catch(\Exception $e)
     {
-        return self::log_error("Transaction Error: ".$e->getMessage());
+        return $this->log_error("Transaction Error: ".$e->getMessage());
     }
         
    }
 
-   public static function set_source($source)
+   public function set_source($source)
    {
-      self::$source_details=$source;
+      $this->source_details=$source;
+      return $this;
    }
 
-   public static function other_info(array $data)
+   public function other_info(array $data)
    {
-     self::$other_info=$data;
+     $this->other_info=$data;
+     return $this;
    }
 
+}
+
+class WalletTransaction extends TransactionService
+{
+   public function __construct(UserWallet $user_wallet)
+   {
+      parent::__construct();
+      $this->user_wallet=$user_wallet;
+      $this;
+   }
+   
+   public function update()
+   {
+      $this->user_wallet->update('balance',$this->new_balance);
+   }
+
+   public function credit($amount)
+   {
+      $this->credit($amount);
+      $this->update();
+      return $this;
+   }
+
+   public function debit($amount)
+   {
+      $this->debit($amount);
+      $this->update();
+      return $this;
+   }
 }

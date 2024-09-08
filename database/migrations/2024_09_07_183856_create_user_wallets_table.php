@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_wallets', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('wallet_id')->unique();
             $table->foreignIdFor(User::class);
             $table->double('balance');

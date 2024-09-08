@@ -17,7 +17,6 @@ class UserController extends Controller
             'email'=>'email|required'
         ]);
 
-        $data['balance']=1000;
         $user_data=User::create($data);
         
         return response()->json([
