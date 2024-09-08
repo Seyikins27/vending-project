@@ -2,7 +2,7 @@
 
 
 
-## About Vending Project
+## About the Vending Project
 
 A Laravel Application that allows users to vend airtime while from different network providers while being able to switch between different vending partners
 
