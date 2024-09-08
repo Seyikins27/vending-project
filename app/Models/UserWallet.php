@@ -13,11 +13,11 @@ class UserWallet extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    public static function boot() {
-        parent::boot();
+    protected $fillable=['wallet_id','user_id','balance'];
 
+    public static function booted() {
         static::creating(function ($model) {
-            $model->id = Str::uuid();
+            $model->id = Str::uuid()->toString();
         });
     }
 

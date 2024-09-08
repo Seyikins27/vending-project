@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserWalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+Route::post('login',[AuthController::class,'login']);
 Route::post('user/register',[UserController::class,'register']);
 
-Route::get('vend',function(\Seyi\AirtimeVend\Airtime $airtime){
-    //return $airtime->vend();
+Route::group(['middleware'=>'auth:sanctum'], function(){
+    Route::get('user/wallet/balance',[UserWalletController::class,'balance']);
+    Route::post('user/wallet/topup',[UserWalletController::class,'topup']);
+    Route::post('user/airtime/topup',[UserController::class,'purchase_airtime']);
+
 });
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+// Route::get('vend',function(\Seyi\AirtimeVend\Airtime $airtime){
+//     //return $airtime->vend();
+// });

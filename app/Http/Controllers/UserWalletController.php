@@ -50,9 +50,10 @@ class UserWalletController extends Controller
                 'amount'=>'required'
              ]);
             $user=auth()->user()->id;
-            $wallet=UserWallet::where('user_id',$user)->firstOrFail();  
+            $wallet=UserWallet::where('user_id',$user)->firstOrFail(); 
             $topup_request=new WalletTransaction($wallet);
-            $topup_request->credit($request->amount)->set_source('ACCT-CREDITED');
+            $topup_request->set_source('ACCT-CREDITED')->wallet_credit($request->amount);
+            //dd($topup_request);
             return response()->json([
                 'status' => true,
                 'message' => 'Account credited successfully',
@@ -63,6 +64,7 @@ class UserWalletController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Error crediting Account ',
+                'error'=>$e->getMessage()
             ]);
         }
     }

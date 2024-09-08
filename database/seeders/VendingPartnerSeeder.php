@@ -28,7 +28,8 @@ class VendingPartnerSeeder extends Seeder
                 "vend_type",
                 "network",
                 "request_id"
-            ]
+            ],
+            'network_attribute'=>'network'
             ]);
 
             VendingPartner::create([
@@ -46,7 +47,8 @@ class VendingPartnerSeeder extends Seeder
                     "plan",
                     "agentId",
                     "agentReference"
-                ]
+                ],
+                'network_attribute'=>'service_type'
                 ]);
     }
 }

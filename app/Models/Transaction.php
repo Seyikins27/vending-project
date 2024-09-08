@@ -10,6 +10,6 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable=[
-        'reference_number','network_provider_id','vending_partner_id','amount','commission','other_info'
+       'user_wallet_id','reference_number','transaction_type','transaction_source','description','amount','other_info'
     ];
 }

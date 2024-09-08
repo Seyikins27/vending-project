@@ -7,6 +7,7 @@ use Seyi\AirtimeVend\Models\VendingPartner;
 use Seyi\AirtimeVend\Services\NetworkService;
 use Seyi\AirtimeVend\Services\TransactionService;
 use Seyi\AirtimeVend\Services\VendingService;
+use Seyi\AirtimeVend\Services\WalletTransaction;
 
 class Airtime extends TransactionService
 {
@@ -14,12 +15,14 @@ class Airtime extends TransactionService
     public $amount;
 
     
-    public function vend(NetworkProvider $network_provider, VendingPartner $vending_partner, $data)
+    public static function vend(NetworkProvider $network_provider, VendingPartner $vending_partner, $data)
     {
         try{
             $vending_service= new VendingService($vending_partner, $data);
             $network_service=new NetworkService($network_provider);
             $vend_result=$network_service->switch_partner($vending_service);
+            //dd($vend_result);
+            //$debit_wallet=WalletTransaction
             return [
                 'status'=>true,
                 'message'=>'Airtime Purchase successful',
@@ -30,7 +33,8 @@ class Airtime extends TransactionService
         {
             return [
                 'status'=>false,
-                'message'=>'Error Purchasing Airtime'
+                'message'=>'Error Purchasing Airtime',
+                'error'=>$e->getMessage()
             ];
         }
         

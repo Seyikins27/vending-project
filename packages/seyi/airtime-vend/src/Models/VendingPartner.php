@@ -10,7 +10,7 @@ class VendingPartner extends Model
     use HasFactory;
 
     protected $fillable=[
-        'name','endpoint','header_information','parameters'
+        'name','endpoint','header_information','parameters','network_attribute'
     ];
 
     protected $casts=[

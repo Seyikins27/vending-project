@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('endpoint');
             $table->text('header_information');
             $table->text('parameters');
+            $table->string('network_attribute');
             $table->timestamps();
         });
     }

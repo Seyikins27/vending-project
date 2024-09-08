@@ -19,7 +19,7 @@ trait Error
      }
 }
 
-abstract class TransactionService implements Transaction
+class TransactionService implements Transaction
 {
    use Error;
    protected $user_wallet;
@@ -28,7 +28,6 @@ abstract class TransactionService implements Transaction
 
    public function credit($amount)
    {
-      $source=$this->source_details;
       $type="Cr";
       $this->description='Account Credited with '.$amount;
       $this->new_balance=$this->user_wallet->balance+$amount;
@@ -49,11 +48,12 @@ abstract class TransactionService implements Transaction
    private function record_transaction($type, $amount)
    {
       try{
+         
          $transaction_data=[
             'user_wallet_id'=>$this->user_wallet->id,
             'reference_number'=>$this->user_wallet->user_id.date('ymdhis'),
             'transaction_type'=>$type,
-            'transaction_source'=>$this->source_details??null,
+            'transaction_source'=>$this->source_details??"ACCT-NA",
             'description'=>$this->description,
             'amount'=>$amount,
             'other_info'=>self::$other_info??null
@@ -81,31 +81,3 @@ abstract class TransactionService implements Transaction
 
 }
 
-class WalletTransaction extends TransactionService
-{
-   public function __construct(UserWallet $user_wallet)
-   {
-      parent::__construct();
-      $this->user_wallet=$user_wallet;
-      $this;
-   }
-   
-   public function update()
-   {
-      $this->user_wallet->update('balance',$this->new_balance);
-   }
-
-   public function credit($amount)
-   {
-      $this->credit($amount);
-      $this->update();
-      return $this;
-   }
-
-   public function debit($amount)
-   {
-      $this->debit($amount);
-      $this->update();
-      return $this;
-   }
-}
