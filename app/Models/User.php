@@ -52,7 +52,7 @@ class User extends Authenticatable
         UserWallet::create([
             'wallet_id'=>$wallet_id,
             'user_id'=>$this->id,
-            'balance'=>1000  //this balance could be dynamically set ideally
+            'balance'=>1000  //this initial balance could be dynamically set ideally
         ]);
     }
 
