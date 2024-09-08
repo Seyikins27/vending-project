@@ -45,14 +45,21 @@ To Register a user
 
 <pre>POST: {base_url}/api/user/register </pre>using the POST method using the following fields
 
+<pre>
 -name 
 -email
 -password
--password_confirmation
+-password_confirmation </pre>
 
 ## login with the created user or one of the seeded user
 <pre>POST: {base_url}/api/login </pre>
 
+ using the following fields
+
+ <pre>
+-email
+-password </pre>
+ 
 A token is then gotten from the request body which will then be used for subsequent requests
 
 ## header information
@@ -76,12 +83,13 @@ Authorization: Bearer {token}
 
     <pre>- POST: {base_url}/api/user/airtime/vend </pre>
     - fields
+      <pre>
         - network_provider : requires the id of any of the network providers that exists in the database,
         - vending_partner : requires the id of any of the network providers that exists in the database,
         - data: this is an array contains all of the fields required by any of the vending partners to be able to make a request to vend
           - amount : compulsory
           - phone: compulsory
-          - .. all other fields as specified in the documentation of the vending service provider
+          - .. all other fields as specified in the documentation of the vending service provider </pre>
 
     ## sample request to vend airtime
     <code><pre>{
