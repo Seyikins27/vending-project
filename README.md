@@ -93,22 +93,26 @@ Authorization: Bearer {token}
 
     ## sample request to vend airtime
     <code><pre>{
-          "network_provider":1,
-          "vending_partner":1,
-          "data":{
-             "amount":200,
-             "phone":"08065324736",
-             "Accept":"application/json",
-             "email":"test@shagopayments.com",
-             "password":"test123",
-             "Content-Type":"application/json",
-             "vend_type":"VTU",
-             "serviceCode":"QAB",
-             "request_id":"647929258018"
-          }
-    }</pre></code>
+      "network_provider":1,
+      "vending_partner":1,
+      "data":{
+         "amount":200,
+         "phone":"080xxxxxxxx",
+         "email":"test@shagopayments.com",
+         "password":"test123",
+         "Accept":"application/json",
+         "Content-Type":"application/json",
+         "vend_type":"VTU",
+         "serviceCode":"QAB",
+         "request_id":"647792580181",
+         "hashKey":"c1df88d180d0163fc53f4efde6288a2c87a2ceaaefae0685fd4a8c01b217e70d",
+         "x-api-key":"T7Wi2Q7tHFkq6sxU5WaUSBIGg3ynb96Qi74RnAeY6ys="
+      }
+}</pre></code>
 
-** note: The parameters within the "data" array are subject to the specific vending service, 
+** note: The parameters within the "data" array are subject to the required request parameters for the specific vending service, 
+
+however multiple parameters can be fixed in to accomodate all the possible vending requests, only the specific parameters for the vending service will be sent as a request
 
 only "amount" and "phone" are required and consistent across all requests regardless of the vending service
 
