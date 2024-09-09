@@ -19,7 +19,8 @@ class VendingPartnerSeeder extends Seeder
             'header_information'=>[
                 'Content-Type',
                 'email',
-                'password' 
+                'password',
+                'hashKey' 
             ],
             'parameters'=>[
                 "serviceCode",
