@@ -110,11 +110,10 @@ Authorization: Bearer {token}
       }
 }</pre></code>
 
-** note: The parameters within the "data" array are subject to the required request parameters for the specific vending service, 
+** <strong>Note:</strong> The parameters within the "data" array are subject to the required request parameters for the specific vending service, 
+<p>only "amount" and "phone" are required and consistent across all requests regardless of the vending service </p>
+<p>however multiple parameters can be fixed in to accomodate all the possible vending requests, only the specific parameters for the vending service will be sent as a request. </p>
 
-however multiple parameters can be fixed in to accomodate all the possible vending requests, only the specific parameters for the vending service will be sent as a request
-
-only "amount" and "phone" are required and consistent across all requests regardless of the vending service
 
 
 ## License
