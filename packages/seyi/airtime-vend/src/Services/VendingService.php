@@ -33,8 +33,8 @@ class VendingService
         try{
             $request=Http::acceptJson()->withHeaders($this->header_information)->post($this->endpoint, $this->parameters);
             $request_body=json_decode($request->getBody()->getContents());
-            
-            if($request_body !=null && in_array($request_body->status,['success',200])===true)
+            //dd($request_body);
+            if(($request_body !=null && $request_body->status!=false)  && in_array($request_body->status,['success',200])===true)
             {
                 return [
                     'status'=>true,
@@ -43,7 +43,7 @@ class VendingService
                 ];
             }
             else{
-                throw new Exception('Vending Error : Could not connect to vending service');
+                throw new Exception('Vending Error : '.isset($request_body->message)?$request_body->message:'Could not connect to vending service');
             }
            
         }
